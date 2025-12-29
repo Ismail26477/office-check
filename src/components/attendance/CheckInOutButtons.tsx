@@ -44,12 +44,14 @@ export function CheckInOutButtons() {
 
   const handlePhotoCapture = async (photoData: string) => {
     setCapturedPhoto(photoData)
-    const today = format(new Date(), "yyyy-MM-dd")
-    const photoKey = `employee_photos_${user?.id}`
-    const existingPhotos = JSON.parse(localStorage.getItem(photoKey) || "{}")
-    existingPhotos[today] = photoData
-    localStorage.setItem(photoKey, JSON.stringify(existingPhotos))
-    console.log("[v0] Photo stored in localStorage as backup - Key:", photoKey, "Date:", today)
+    if (typeof window !== "undefined") {
+      const today = format(new Date(), "yyyy-MM-dd")
+      const photoKey = `employee_photos_${user?.id}`
+      const existingPhotos = JSON.parse(localStorage.getItem(photoKey) || "{}")
+      existingPhotos[today] = photoData
+      localStorage.setItem(photoKey, JSON.stringify(existingPhotos))
+      console.log("[v0] Photo stored in localStorage as backup - Key:", photoKey, "Date:", today)
+    }
 
     setShowCameraDialog(false)
 
