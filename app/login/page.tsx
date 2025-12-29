@@ -8,6 +8,8 @@ import { AuthProvider } from "@/contexts/AuthContext"
 import { AttendanceProvider } from "@/contexts/AttendanceContext"
 import Login from "@/views/Login"
 
+export const dynamic = "force-dynamic"
+
 const queryClient = new QueryClient()
 
 export default function Page() {
