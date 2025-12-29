@@ -11,6 +11,8 @@ import Index from "@/views/Index"
 import Login from "@/views/Login"
 import NotFound from "@/views/NotFound"
 
+export const dynamic = "force-dynamic"
+
 const queryClient = new QueryClient()
 
 export default function ViteAppWrapper() {
