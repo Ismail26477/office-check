@@ -60,9 +60,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check for stored session
-    const storedUser = localStorage.getItem("attendanceUser")
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("attendanceUser")
+      if (storedUser) {
+        try {
+          setUser(JSON.parse(storedUser))
+        } catch (e) {
+          console.error("[v0] Failed to parse stored user", e)
+          localStorage.removeItem("attendanceUser")
+        }
+      }
     }
     setIsLoading(false)
   }, [])
@@ -81,7 +88,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           createdAt: new Date(response.user.createdAt),
         }
         setUser(userData)
-        localStorage.setItem("attendanceUser", JSON.stringify(userData))
+        if (typeof window !== "undefined") {
+          localStorage.setItem("attendanceUser", JSON.stringify(userData))
+        }
         setIsLoading(false)
         return { success: true }
       }
@@ -97,7 +106,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setUser(null)
-    localStorage.removeItem("attendanceUser")
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("attendanceUser")
+    }
   }
 
   return (
